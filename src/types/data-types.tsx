@@ -28,3 +28,12 @@ export type StaffTraining = {
   nama: string;
   pelatihan: string;
 };
+
+export type LoginResponse = {
+  status: string;
+  message: string | object;
+  data?: {
+    access_token: string;
+    expires_in: number;
+  };
+};

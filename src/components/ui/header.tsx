@@ -8,22 +8,21 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "./drawer";
-import { Button } from "./button";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { LogoutWrapper } from "../custome/logout-wrapper";
 
 const Header = () => {
+  const route = useRouter();
   const pathname = usePathname();
   const isMobil = useMediaQuery("(max-width: 768px)");
   return (
@@ -123,25 +122,27 @@ const Header = () => {
                       <p className="text-xs text-gray-400">Admin</p>
                     </div>
                   </div>
-                  <button className="text-red-400 size-6 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="size-5"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
-                      <path d="M9 12h12l-3 -3" />
-                      <path d="M18 15l3 -3" />
-                    </svg>
-                  </button>
+                  <LogoutWrapper>
+                    <button type="submit" className="text-red-400 size-6 p-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="size-5"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                        <path d="M9 12h12l-3 -3" />
+                        <path d="M18 15l3 -3" />
+                      </svg>
+                    </button>
+                  </LogoutWrapper>
                 </DrawerFooter>
               </DrawerContent>
             </Drawer>
@@ -225,7 +226,13 @@ const Header = () => {
             </svg>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Keluar</DropdownMenuItem>
+            <LogoutWrapper>
+              <DropdownMenuItem asChild>
+                <button className="w-full cursor-pointer" type="submit">
+                  Keluar
+                </button>
+              </DropdownMenuItem>
+            </LogoutWrapper>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -8,35 +8,100 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { signInSchema } from "@/data/zodSchema/auth";
 import { Label } from "@radix-ui/react-label";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { signIn } from "@/data/actions/auth-action";
+import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-
+type FormData = z.infer<typeof signInSchema>;
 export default function Home() {
   const router = useRouter();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting, isDirty, isValid },
+  } = useForm<FormData>({
+    resolver: zodResolver(signInSchema),
+  });
+  async function onSubmit(data: FormData) {
+    const res = await signIn(data);
+    if (res.status === 200) {
+      // Client-side navigation after successful login
+      router.push("/dashboard");
+    } else {
+      toast.error(res.message || "Terjadi kesalahan, coba beberapa saat lagi");
+    }
+  }
+
   return (
     <div className="grid place-items-center h-screen">
       <Card className="min-w-96">
         <CardHeader>
           <CardTitle>Masuk</CardTitle>
           <CardDescription>
-            Masukkan username dan password Anda untuk mengakses webisite.
+            Masukkan email dan password Anda untuk mengakses webisite.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid w-full items-center gap-1.5">
-            <Label htmlFor="username">Username</Label>
-            <Input type="text" id="username" placeholder="Username" autoFocus />
-          </div>
-          <div className="grid w-full items-center gap-1.5 mt-4">
-            <Label htmlFor="password">Password</Label>
-            <Input type="password" id="password" placeholder="Password" />
-          </div>
-          <Button
-            className="w-full mt-8"
-            onClick={() => router.push("/dashboard")}
-          >
-            Masuk
-          </Button>
+          <form method="POST" onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                {...register("email", { required: true })}
+                type="email"
+                id="email"
+                placeholder="Masukkan email Anda"
+                autoFocus
+                name="email"
+              />
+              {errors?.email && (
+                <p className="text-red-500 text-sm">{errors?.email?.message}</p>
+              )}
+            </div>
+            <div className="grid w-full items-center gap-1.5 mt-4">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                {...register("password", { required: true })}
+                type="password"
+                id="password"
+                placeholder="Masukkan password Anda"
+                name="password"
+              />
+              {errors?.password && (
+                <p className="text-red-500 text-sm">
+                  {errors?.password?.message}
+                </p>
+              )}
+            </div>
+            <Button
+              disabled={!isDirty || !isValid || isSubmitting}
+              type="submit"
+              className="w-full mt-8"
+            >
+              {isSubmitting ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="animate-spin size-6"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M12 3a9 9 0 1 0 9 9" />
+                </svg>
+              ) : (
+                "Masuk"
+              )}
+            </Button>
+          </form>
         </CardContent>
       </Card>
     </div>
