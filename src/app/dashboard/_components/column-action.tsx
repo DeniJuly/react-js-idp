@@ -57,18 +57,18 @@ const ColumnAction = ({ row }: { row: Row<Staff> }) => {
   };
   return (
     <div className="text-center">
-      {openDetail && row.original.id && (
+      {openDetail && data.id && (
         <DetailStaff
           openModal={openDetail}
           handleClose={handleCloseDetail}
-          idStaff={row.original.id}
+          idStaff={data.id}
         />
       )}
-      {openEdit && row.original.id && (
+      {openEdit && data.id && (
         <EditStaff
           openModal={openEdit}
           handleClose={handleCloseEdit}
-          idStaff={row.original.id}
+          idStaff={data.id}
         />
       )}
       {openDelete && data.id && (

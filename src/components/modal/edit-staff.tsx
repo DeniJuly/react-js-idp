@@ -22,7 +22,7 @@ interface DataTableProps {
 type FormData = z.infer<typeof staffFormSchema>;
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const EditStaff = ({ openModal, handleClose, idStaff }: DataTableProps) => {
-  const { data, error, isLoading } = useSWR(
+  const { data } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}v1/karyawan/${idStaff}`,
     fetcher
   );

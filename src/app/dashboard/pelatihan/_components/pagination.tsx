@@ -25,7 +25,7 @@ const Pagination = ({
         disabled={loading || currentPage === 0}
         onClick={() => onPageChange(currentPage - 1)}
       >
-        Sebelumnya
+        Previous
       </Button>
       <Button
         variant="outline"
@@ -33,7 +33,7 @@ const Pagination = ({
         disabled={loading || currentPage === totalPages - 1}
         onClick={() => onPageChange(currentPage + 1)}
       >
-        Selanjutnya
+        Next
       </Button>
     </div>
   );

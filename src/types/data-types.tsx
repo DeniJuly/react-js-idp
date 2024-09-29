@@ -12,10 +12,12 @@ export type Staff = {
 };
 
 export type Training = {
-  id: number;
+  id?: number;
   no?: number;
   tema: string;
   pengajar: string;
+  created_date?: string;
+  updated_date?: string;
 };
 
 export type Rekening = {
