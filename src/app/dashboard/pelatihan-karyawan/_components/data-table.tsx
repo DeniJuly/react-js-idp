@@ -5,8 +5,6 @@ import {
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -18,11 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import React from "react";
-import { Input } from "@/components/ui/input";
-import AddStaff from "@/components/modal/add-staff";
-import AddRekening from "@/components/modal/add-rekening";
 import { Staff, Training } from "@/types/data-types";
 import AddStaffTraining from "@/components/modal/add-staff-training";
 
@@ -46,12 +40,6 @@ export function DataTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      columnFilters,
-    },
   });
 
   return (
@@ -66,14 +54,6 @@ export function DataTable<TData, TValue>({
           </p>
         </div>
         <div className="col-span-2 md:col-span-1 flex items-center py-4 gap-2 justify-end">
-          <Input
-            placeholder="Cari nama karyawan..."
-            value={(table.getColumn("nama")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("nama")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
           <AddStaffTraining
             dataKaryawan={dataKaryawan}
             dataPelatihan={dataPelatihan}
@@ -134,24 +114,6 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
       </div>
     </div>
   );

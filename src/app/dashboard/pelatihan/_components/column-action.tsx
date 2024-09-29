@@ -21,10 +21,10 @@ const ColumnAction = ({ row }: { row: Row<Training> }) => {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const handleCloseDetail = (open: boolean) => setOpenDetail(open);
   const handleCloseEdit = (open: boolean) => setOpenEdit(open);
   const handleCloseDelete = (open: boolean) => setOpenDelete(open);
-  const [loadingDelete, setLoadingDelete] = useState(false);
   const data: Training = row.original;
   const handleDelete = async () => {
     if (data.id) {
@@ -71,7 +71,6 @@ const ColumnAction = ({ row }: { row: Row<Training> }) => {
           idTraining={data.id}
         />
       )}
-
       {openDelete && data.id && (
         <DialogDeleteData
           openModal={openDelete}

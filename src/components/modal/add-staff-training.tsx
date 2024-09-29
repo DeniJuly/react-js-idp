@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import { ResponsiveFormDialog } from "../ui/responsive-form-dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
+import * as z from "zod";
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
   Command,
@@ -14,11 +14,19 @@ import {
   CommandItem,
   CommandList,
 } from "../ui/command";
-import { Staff, Training } from "@/types/data-types";
+import { Staff, StaffTrainingForm, Training } from "@/types/data-types";
+import { staffTrainingFormSchema } from "@/data/zodSchema/staff-training";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { addStaffTraining } from "@/data/actions/staff-training-action";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
+import { Input } from "../ui/input";
 interface AddStaffTrainingProps {
   dataKaryawan: Staff[];
   dataPelatihan: Training[];
 }
+type FormData = z.infer<typeof staffTrainingFormSchema>;
 const AddStaffTraining = ({
   dataKaryawan,
   dataPelatihan,
@@ -28,6 +36,14 @@ const AddStaffTraining = ({
     training: "",
   });
   const [openDialog, setOpenDialog] = useState(false);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<FormData>({
+    resolver: zodResolver(staffTrainingFormSchema),
+  });
   const handleClose = (status: boolean) => {
     setOpenDialog(status);
   };
@@ -41,6 +57,34 @@ const AddStaffTraining = ({
       ...pref,
       training: val,
     }));
+  const submitStaff = async (form: FormData) => {
+    const param: StaffTrainingForm = {
+      karyawan: {
+        id: parseInt(data.karyawan),
+      },
+      training: {
+        id: parseInt(data.training),
+      },
+      training_date: `${form.training_date.replace("T", " ")}:00`,
+    };
+    try {
+      const res = await addStaffTraining(param);
+      if (res.data.status === "200") {
+        toast.success("Berhasil menambahkan pelatihan pegawai");
+        reset();
+        setOpenDialog(false);
+        mutate(
+          `${process.env.NEXT_PUBLIC_API_URL}v1/karyawan-training/list?page=0&size=10`
+        );
+      } else {
+        throw new Error(res.data?.message);
+      }
+    } catch (error: any) {
+      toast.error(
+        error.message || "Terjadi kesalahan, coba beberapa saat lagi"
+      );
+    }
+  };
   return (
     <>
       <Button onClick={() => setOpenDialog(true)} variant="default">
@@ -64,12 +108,14 @@ const AddStaffTraining = ({
       </Button>
       <ResponsiveFormDialog
         open={openDialog}
-        title="Tambah Data Pelatihan Karyawan"
+        title="Tambah Data Pelatihan Pegawai"
         handleClose={handleClose}
+        onSubmit={handleSubmit(submitStaff)}
+        loadingSubmit={isSubmitting}
       >
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 pb-4">
           <div className="grid w-full items-center gap-2">
-            <Label htmlFor="karyawan">Karyawan</Label>
+            <Label htmlFor="pegawai">Pegawai</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -82,13 +128,13 @@ const AddStaffTraining = ({
                 >
                   {data.karyawan
                     ? dataKaryawan.find(
-                        (item) => item.id.toString() === data.karyawan
-                      )?.nama
+                        (item) => item?.id?.toString() === data.karyawan
+                      )?.name
                     : "Pilih Karyawan"}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-full min-w-lg p-0">
+              <PopoverContent className="w-[250px] min-w-lg p-0">
                 <Command>
                   <CommandInput placeholder="Cari karyawan..." />
                   <CommandList>
@@ -96,21 +142,21 @@ const AddStaffTraining = ({
                     <CommandGroup>
                       {dataKaryawan.map((item) => (
                         <CommandItem
-                          value={item.id.toString()}
+                          value={item?.id?.toString()}
                           key={item.id}
                           onSelect={() => {
-                            handleChangeStaff(item.id.toString());
+                            handleChangeStaff(item?.id?.toString() ?? "");
                           }}
                         >
                           <Check
                             className={cn(
                               "mr-2 h-4 w-4",
-                              item.id.toString() === data.karyawan
+                              item?.id?.toString() === data.karyawan
                                 ? "opacity-100"
                                 : "opacity-0"
                             )}
                           />
-                          {item.nama}
+                          {item.name}
                         </CommandItem>
                       ))}
                     </CommandGroup>
@@ -133,13 +179,13 @@ const AddStaffTraining = ({
                 >
                   {data.training
                     ? dataPelatihan.find(
-                        (item) => item.id.toString() === data.training
+                        (item) => item?.id?.toString() === data.training
                       )?.tema
                     : "Pilih pelatihan"}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-full min-w-lg p-0">
+              <PopoverContent className="w-[250px] min-w-lg p-0">
                 <Command>
                   <CommandInput placeholder="Cari pelatihan..." />
                   <CommandList>
@@ -147,16 +193,16 @@ const AddStaffTraining = ({
                     <CommandGroup>
                       {dataPelatihan.map((item) => (
                         <CommandItem
-                          value={item.id.toString()}
+                          value={item?.id?.toString()}
                           key={item.id}
                           onSelect={() => {
-                            handleChangeStaff(item.id.toString());
+                            handleChangeTraining(item?.id?.toString() ?? "");
                           }}
                         >
                           <Check
                             className={cn(
                               "mr-2 h-4 w-4",
-                              item.id.toString() === data.training
+                              item?.id?.toString() === data.training
                                 ? "opacity-100"
                                 : "opacity-0"
                             )}
@@ -169,6 +215,21 @@ const AddStaffTraining = ({
                 </Command>
               </PopoverContent>
             </Popover>
+          </div>
+          <div className="grid w-full items-center gap-2">
+            <Label htmlFor="training_date">Tanggal Pelatihan</Label>
+            <Input
+              {...register("training_date", { required: true })}
+              name="training_date"
+              type="datetime-local"
+              id="training_date"
+              placeholder="Masukkan tanggal Pelatihan"
+            />
+            {errors?.training_date && (
+              <p className="text-red-500 text-sm">
+                {errors?.training_date?.message}
+              </p>
+            )}
           </div>
         </div>
       </ResponsiveFormDialog>

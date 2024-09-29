@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import ColumnAction from "./column-action";
 import { StaffTraining } from "@/types/data-types";
+import { formatDate } from "@/utils/formatDate";
 
 export const columns: ColumnDef<StaffTraining>[] = [
   {
@@ -13,12 +14,27 @@ export const columns: ColumnDef<StaffTraining>[] = [
     },
   },
   {
-    accessorKey: "nama",
+    accessorKey: "karyawan.name",
     header: "Karyawan",
   },
   {
-    accessorKey: "pelatihan",
+    accessorKey: "training.tema",
     header: "Tema",
+  },
+  {
+    accessorKey: "training_date",
+    header: "Tanggal Pelatihan",
+    cell: ({ row }) => {
+      let trainingDate = row.getValue("training_date");
+      if (!trainingDate) return <div>-</div>;
+      return (
+        <div>
+          {`${formatDate(row.getValue("training_date"))} ${trainingDate
+            ?.toString()
+            .substring(11, 16)}`}
+        </div>
+      );
+    },
   },
   {
     id: "actions",

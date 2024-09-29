@@ -29,10 +29,22 @@ export type Rekening = {
 };
 
 export type StaffTraining = {
-  id: number;
-  no: number;
-  nama: string;
-  pelatihan: string;
+  id?: number;
+  no?: number;
+  training: Training;
+  karyawan: Staff;
+  training_date: string;
+};
+
+export type StaffTrainingForm = {
+  id?: number;
+  training: {
+    id: number;
+  };
+  karyawan: {
+    id: number;
+  };
+  training_date: string;
 };
 
 export type LoginResponse = {
