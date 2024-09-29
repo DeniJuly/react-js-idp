@@ -17,6 +17,10 @@ export const columns: ColumnDef<Rekening>[] = [
     header: "Bank",
   },
   {
+    accessorKey: "karyawan.name",
+    header: "Karyawan",
+  },
+  {
     accessorKey: "nama",
     header: "Nama",
   },

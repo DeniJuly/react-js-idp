@@ -26,6 +26,17 @@ export type Rekening = {
   jenis: string;
   nama: string;
   norek: string;
+  karyawan: Staff;
+};
+
+export type RekeningForm = {
+  id?: number;
+  jenis: string;
+  nama: string;
+  norek: string;
+  karyawan: {
+    id: number;
+  };
 };
 
 export type StaffTraining = {
