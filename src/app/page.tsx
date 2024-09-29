@@ -29,7 +29,6 @@ export default function Home() {
   async function onSubmit(data: FormData) {
     const res = await signIn(data);
     if (res.status === 200) {
-      // Client-side navigation after successful login
       router.push("/dashboard");
     } else {
       toast.error(res.message || "Terjadi kesalahan, coba beberapa saat lagi");
@@ -77,7 +76,7 @@ export default function Home() {
               )}
             </div>
             <Button
-              disabled={!isDirty || !isValid || isSubmitting}
+              disabled={isSubmitting}
               type="submit"
               className="w-full mt-8"
             >

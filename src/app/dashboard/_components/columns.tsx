@@ -14,15 +14,15 @@ export const columns: ColumnDef<Staff>[] = [
     },
   },
   {
-    accessorKey: "nama",
+    accessorKey: "name",
     header: "Nama",
   },
   {
-    accessorKey: "nik",
+    accessorKey: "karyawanDetail.nik",
     header: "NIK",
   },
   {
-    accessorKey: "alamat",
+    accessorKey: "address",
     header: "Alamat",
   },
   {
@@ -35,11 +35,11 @@ export const columns: ColumnDef<Staff>[] = [
             variant="outline"
             className={
               row.getValue("status") === "active"
-                ? "bg-green-50 border-green-300"
-                : "bg-red-50 border-red-300"
+                ? "bg-green-50 border-green-300 text-green-500"
+                : "bg-red-50 border-red-300 text-red-500"
             }
           >
-            {row.getValue("status")}
+            {row.getValue("status") === "active" ? "Aktif" : "Tidak Aktif"}
           </Badge>
         </div>
       );
@@ -47,6 +47,8 @@ export const columns: ColumnDef<Staff>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <ColumnAction row={row} />,
+    cell: ({ row }) => {
+      return <ColumnAction row={row} />;
+    },
   },
 ];

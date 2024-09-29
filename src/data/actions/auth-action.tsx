@@ -15,7 +15,7 @@ export const signIn = async (data: { email: string; password: string }) => {
       if (res.data.data?.access_token) {
         setCookie(
           "token",
-          res.data.data?.access_token,
+          res.data.data.access_token,
           res.data.data.expires_in / (60 * 60 * 24)
         );
         return {

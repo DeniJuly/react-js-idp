@@ -14,11 +14,13 @@ interface DataTableProps {
   openModal: boolean;
   handleClose: (status: boolean) => void;
   onDelete: () => void;
+  loadingSubmit: boolean;
 }
 const DialogDeleteData = ({
   openModal,
   handleClose,
   onDelete,
+  loadingSubmit,
 }: DataTableProps) => {
   return (
     <AlertDialog open={openModal} onOpenChange={handleClose}>
@@ -30,8 +32,10 @@ const DialogDeleteData = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={onDelete}>Hapus</AlertDialogAction>
+          <AlertDialogCancel disabled={loadingSubmit}>Batal</AlertDialogCancel>
+          <AlertDialogAction disabled={loadingSubmit} onClick={onDelete}>
+            Hapus
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

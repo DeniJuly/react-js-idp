@@ -1,6 +1,4 @@
 import * as React from "react";
-
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -48,19 +46,39 @@ export function ResponsiveFormDialog({
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>
-          {children}
-          {!hideFooter && (
-            <DialogFooter className="gap-2">
-              <DialogClose asChild>
-                <Button variant="outline" type="submit">
-                  Batal
+          <form onSubmit={onSubmit} method="post">
+            {children}
+            {!hideFooter && (
+              <DialogFooter className="gap-2">
+                <DialogClose asChild>
+                  <Button variant="outline" type="button">
+                    Batal
+                  </Button>
+                </DialogClose>
+                <Button disabled={loadingSubmit} type="submit">
+                  {loadingSubmit ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="animate-spin size-6"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M12 3a9 9 0 1 0 9 9" />
+                    </svg>
+                  ) : (
+                    "Simpan"
+                  )}
                 </Button>
-              </DialogClose>
-              <Button disabled={loadingSubmit} onClick={onSubmit} type="submit">
-                Simpan
-              </Button>
-            </DialogFooter>
-          )}
+              </DialogFooter>
+            )}
+          </form>
         </DialogContent>
       </Dialog>
     );
@@ -72,24 +90,39 @@ export function ResponsiveFormDialog({
         <DrawerHeader className="text-left">
           <DrawerTitle>{title}</DrawerTitle>
         </DrawerHeader>
-        <div className="px-4">{children}</div>
-        {!hideFooter && (
-          <DrawerFooter className="pt-2 flex-row">
-            <DrawerClose asChild>
-              <Button variant="outline" type="submit" className="flex-1">
-                Batal
+        <form onSubmit={onSubmit} method="POST">
+          <div className="px-4">{children}</div>
+          {!hideFooter && (
+            <DrawerFooter className="pt-2 flex-row">
+              <DrawerClose asChild>
+                <Button variant="outline" type="button" className="flex-1">
+                  Batal
+                </Button>
+              </DrawerClose>
+              <Button disabled={loadingSubmit} className="flex-1" type="submit">
+                {loadingSubmit ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="animate-spin size-6"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 3a9 9 0 1 0 9 9" />
+                  </svg>
+                ) : (
+                  "Simpan"
+                )}
               </Button>
-            </DrawerClose>
-            <Button
-              disabled={loadingSubmit}
-              onClick={onSubmit}
-              className="flex-1"
-              type="submit"
-            >
-              Simpan
-            </Button>
-          </DrawerFooter>
-        )}
+            </DrawerFooter>
+          )}
+        </form>
       </DrawerContent>
     </Drawer>
   );

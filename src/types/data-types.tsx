@@ -1,10 +1,14 @@
 export type Staff = {
-  id: number;
+  id?: number;
   no?: number;
-  nama: string;
-  nik: string;
-  alamat: string;
-  status: "active" | "not active";
+  name: string;
+  dob: string;
+  status: "active" | "not-active";
+  address: string;
+  karyawanDetail: {
+    nik: string;
+    npwp: string;
+  };
 };
 
 export type Training = {
