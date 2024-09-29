@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   Drawer,
@@ -20,9 +20,24 @@ import {
 } from "./drawer";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { LogoutWrapper } from "../custome/logout-wrapper";
+import useSWR from "swr";
+import axios from "axios";
+import { getCookie } from "@/utils/cookies";
 
+const fetcher = async (url: string) => {
+  const authToken = await getCookie("token");
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
+  return response.data;
+};
 const Header = () => {
-  const route = useRouter();
+  const { data, error, isLoading } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}user/detail-profile`,
+    fetcher
+  );
   const pathname = usePathname();
   const isMobil = useMediaQuery("(max-width: 768px)");
   return (
@@ -117,7 +132,7 @@ const Header = () => {
                     </Avatar>
                     <div>
                       <p className="text-sm font-semibold">
-                        Deni Juli Setiawan
+                        {data?.data?.username || "..."}
                       </p>
                       <p className="text-xs text-gray-400">Admin</p>
                     </div>
@@ -202,7 +217,9 @@ const Header = () => {
         <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center gap-2">
             <div className="text-right hidden md:inline-block">
-              <p className="text-sm font-semibold">Deni Juli Setiawan</p>
+              <p className="text-sm font-semibold">
+                {data?.data?.username || "..."}
+              </p>
               <p className="text-xs text-gray-400">Admin</p>
             </div>
             <Avatar>
