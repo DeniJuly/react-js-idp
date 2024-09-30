@@ -75,3 +75,10 @@ export type SignUpData = {
   gender: "Laki-Laki" | "Perempuan";
   password: string;
 };
+
+export type ChangePassData = {
+  email: string;
+  newPassword: string;
+  confirmNewPassword: string;
+  otp: string;
+};

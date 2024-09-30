@@ -42,3 +42,27 @@ export const signUpSchema = z.object({
     })
     .min(8, "Password minimal 8 karakter"),
 });
+
+export const forgotPassSchema = z.object({
+  email: z
+    .string({
+      message: "Email harus diisi",
+    })
+    .email("Email tidak valid"),
+});
+
+export const changePassSchema = z
+  .object({
+    newPassword: z
+      .string({
+        message: "Password harus diisi",
+      })
+      .min(8, "Password minimal 8 karakter"),
+    confirmNewPassword: z.string({
+      message: "Konfirmasi Password harus diisi",
+    }),
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: "Password dan Konfirmasi Password harus sama",
+    path: ["confirmNewPassword"],
+  });

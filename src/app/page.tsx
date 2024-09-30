@@ -64,9 +64,17 @@ export default function Home() {
               )}
             </div>
             <div className="grid w-full items-center gap-1.5 mt-4">
-              <Label className="text-sm" htmlFor="password">
-                Password
-              </Label>
+              <div className="flex justify-between items-center">
+                <Label className="text-sm" htmlFor="password">
+                  Password
+                </Label>
+                <Link
+                  href="/lupa-password"
+                  className="text-sm text-gray-500 font-medium text-right"
+                >
+                  Lupa Password?
+                </Link>
+              </div>
               <Input
                 {...register("password", { required: true })}
                 type="password"
@@ -83,7 +91,7 @@ export default function Home() {
             <Button
               disabled={isSubmitting}
               type="submit"
-              className="w-full mt-8"
+              className="w-full mt-4"
             >
               {isSubmitting ? (
                 <svg

@@ -1,5 +1,5 @@
 "use server";
-import { LoginResponse, SignUpData } from "@/types/data-types";
+import { ChangePassData, LoginResponse, SignUpData } from "@/types/data-types";
 import { setCookie } from "@/utils/cookies";
 import axios, { AxiosResponse } from "axios";
 import { cookies } from "next/headers";
@@ -76,4 +76,55 @@ export const logout = async () => {
     maxAge: 0,
   });
   redirect("/");
+};
+
+export const forgotPassword = async (data: { email: string }) => {
+  try {
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}forget-password/send-langsung`,
+      data
+    );
+    const status = res.data.status;
+    console.log("otp", res.data);
+    if (status === "200") {
+      return {
+        status: 200,
+        message: "Success",
+      };
+    } else {
+      throw new Error(
+        res?.data?.message || "Terjadi kesalahan, coba beberapa saat lagi"
+      );
+    }
+  } catch (error: any) {
+    return {
+      status: 400,
+      message: error.message,
+    };
+  }
+};
+
+export const changePassword = async (data: ChangePassData) => {
+  try {
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}forget-password/change-password-langsung`,
+      data
+    );
+    const status = res.data.status;
+    if (status === "200") {
+      return {
+        status: 200,
+        message: "Success",
+      };
+    } else {
+      throw new Error(
+        res?.data?.message || "Terjadi kesalahan, coba beberapa saat lagi"
+      );
+    }
+  } catch (error: any) {
+    return {
+      status: 400,
+      message: error.message,
+    };
+  }
 };
