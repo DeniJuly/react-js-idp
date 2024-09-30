@@ -96,14 +96,14 @@ const Header = () => {
                     </a>
                   </Link>
                   <Link
-                    href="/dashboard/pelatihan-karyawan"
+                    href="/dashboard/pelatihan-pegawai"
                     legacyBehavior
                     passHref
                   >
                     <a
                       className={cn(
                         "py-1 text-sm text-slate-600 hover:text-slate-400 transition-colors duration-300",
-                        pathname === "/dashboard/pelatihan-karyawan"
+                        pathname === "/dashboard/pelatihan-pegawai"
                           ? "text-black font-medium"
                           : ""
                       )}
@@ -187,11 +187,11 @@ const Header = () => {
                 Pelatihan
               </a>
             </Link>
-            <Link href="/dashboard/pelatihan-karyawan" legacyBehavior passHref>
+            <Link href="/dashboard/pelatihan-pegawai" legacyBehavior passHref>
               <a
                 className={cn(
                   "text-sm text-slate-600 hover:text-slate-400 transition-colors duration-300",
-                  pathname === "/dashboard/pelatihan-karyawan"
+                  pathname === "/dashboard/pelatihan-pegawai"
                     ? "text-black font-medium"
                     : ""
                 )}
