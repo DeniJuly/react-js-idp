@@ -2,7 +2,6 @@
 
 import {
   ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -25,6 +24,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   dataKaryawan: Staff[];
   dataPelatihan: Training[];
+  loading: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -32,10 +32,8 @@ export function DataTable<TData, TValue>({
   data,
   dataKaryawan,
   dataPelatihan,
+  loading,
 }: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
   const table = useReactTable({
     data,
     columns,
@@ -63,27 +61,38 @@ export function DataTable<TData, TValue>({
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      key={header.id}
-                      className={
-                        ["no"].includes(header.id) ? "text-center w-12" : ""
-                      }
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+            {loading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  Memuat data ...
+                </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead
+                        key={header.id}
+                        className={
+                          ["no"].includes(header.id) ? "text-center w-12" : ""
+                        }
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
+              ))
+            )}
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (

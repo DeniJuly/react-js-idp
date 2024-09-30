@@ -46,6 +46,7 @@ export default function DemoPage() {
         columns={columns}
         data={rekeningData}
         dataKaryawan={dataKaryawan}
+        loading={isLoading}
       />
       <Pagination
         totalPages={totalPages}

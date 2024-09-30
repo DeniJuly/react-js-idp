@@ -1,7 +1,4 @@
 import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import Image from "next/image";
-import { Badge } from "../ui/badge";
 import { ResponsiveFormDialog } from "../ui/responsive-form-dialog";
 import useSWR from "swr";
 import { Training } from "@/types/data-types";

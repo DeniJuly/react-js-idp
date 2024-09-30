@@ -15,7 +15,7 @@ import {
   CommandItem,
   CommandList,
 } from "../ui/command";
-import { Rekening, RekeningForm, Staff } from "@/types/data-types";
+import { RekeningForm, Staff } from "@/types/data-types";
 import { rekeningFormSchema } from "@/data/zodSchema/rekening";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

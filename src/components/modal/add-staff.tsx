@@ -43,7 +43,7 @@ const AddStaff = () => {
     try {
       const res = await addStaff(param);
       if (res.data.status === "200") {
-        toast.success("Berhasil menambahkan karyawan");
+        toast.success("Berhasil menyimpan data pegawai");
         reset();
         setOpenDialog(false);
         mutate(

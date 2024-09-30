@@ -54,6 +54,7 @@ export default function DemoPage() {
         data={dataStaffTraining}
         dataKaryawan={dataKaryawan}
         dataPelatihan={dataTraining}
+        loading={isLoading}
       />
       <Pagination
         totalPages={totalPages}

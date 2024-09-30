@@ -34,7 +34,7 @@ export default function StaffPage() {
 
   return (
     <div className="py-4 md:py-10">
-      <DataTable columns={columns} data={karyawanData} />
+      <DataTable columns={columns} data={karyawanData} loading={isLoading} />
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}
