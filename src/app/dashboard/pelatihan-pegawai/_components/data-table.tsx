@@ -45,10 +45,10 @@ export function DataTable<TData, TValue>({
       <div className="grid grid-cols-2">
         <div className="col-span-2 md:col-span-1">
           <h1 className="text-black text-2xl font-bold">
-            Data Pelatihan Karyawan
+            Data Pelatihan Pegawai
           </h1>
           <p className="text-gray-400 text-xs">
-            Data Pelatihan Karyawan yang terdaftar di aplikasi ini.
+            Data Pelatihan Pegawai yang terdaftar di aplikasi ini.
           </p>
         </div>
         <div className="col-span-2 md:col-span-1 flex items-center py-4 gap-2 justify-end">
@@ -61,6 +61,29 @@ export function DataTable<TData, TValue>({
       <div className="rounded-md border">
         <Table>
           <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      key={header.id}
+                      className={
+                        ["no"].includes(header.id) ? "text-center w-12" : ""
+                      }
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
             {loading ? (
               <TableRow>
                 <TableCell
@@ -70,32 +93,7 @@ export function DataTable<TData, TValue>({
                   Memuat data ...
                 </TableCell>
               </TableRow>
-            ) : (
-              table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead
-                        key={header.id}
-                        className={
-                          ["no"].includes(header.id) ? "text-center w-12" : ""
-                        }
-                      >
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </TableHead>
-                    );
-                  })}
-                </TableRow>
-              ))
-            )}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}

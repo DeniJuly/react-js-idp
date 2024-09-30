@@ -134,15 +134,15 @@ const AddStaffTraining = ({
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-[250px] min-w-lg p-0">
+              <PopoverContent className="w-[250px] p-0">
                 <Command>
-                  <CommandInput placeholder="Cari karyawan..." />
+                  <CommandInput placeholder="Cari pegawai..." />
                   <CommandList>
                     <CommandEmpty>Data tidak ditemukkan.</CommandEmpty>
                     <CommandGroup>
                       {dataKaryawan.map((item) => (
                         <CommandItem
-                          value={item?.id?.toString()}
+                          value={item?.name}
                           key={item.id}
                           onSelect={() => {
                             handleChangeStaff(item?.id?.toString() ?? "");
@@ -185,7 +185,7 @@ const AddStaffTraining = ({
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-[250px] min-w-lg p-0">
+              <PopoverContent className="w-[250px] p-0">
                 <Command>
                   <CommandInput placeholder="Cari pelatihan..." />
                   <CommandList>
@@ -193,7 +193,7 @@ const AddStaffTraining = ({
                     <CommandGroup>
                       {dataPelatihan.map((item) => (
                         <CommandItem
-                          value={item?.id?.toString()}
+                          value={item?.tema}
                           key={item.id}
                           onSelect={() => {
                             handleChangeTraining(item?.id?.toString() ?? "");

@@ -108,7 +108,7 @@ const Header = () => {
                           : ""
                       )}
                     >
-                      Pelatihan Karyawan
+                      Pelatihan Pegawai
                     </a>
                   </Link>
                   <Link href="/dashboard/rekening" legacyBehavior passHref>
@@ -196,7 +196,7 @@ const Header = () => {
                     : ""
                 )}
               >
-                Pelatihan Karyawan
+                Pelatihan Pegawai
               </a>
             </Link>
             <Link href="/dashboard/rekening" legacyBehavior passHref>

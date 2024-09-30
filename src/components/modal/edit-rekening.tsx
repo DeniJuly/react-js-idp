@@ -137,13 +137,13 @@ const EditRekening = ({
             </PopoverTrigger>
             <PopoverContent className="w-full min-w-lg p-0">
               <Command>
-                <CommandInput placeholder="Cari karyawan..." />
+                <CommandInput placeholder="Cari pegawai..." />
                 <CommandList>
                   <CommandEmpty>Data tidak ditemukkan.</CommandEmpty>
                   <CommandGroup>
                     {dataKaryawan.map((item) => (
                       <CommandItem
-                        value={item?.id?.toString()}
+                        value={item?.name}
                         key={item.id}
                         onSelect={() => {
                           handleChangeStaff(item?.id?.toString() || "");

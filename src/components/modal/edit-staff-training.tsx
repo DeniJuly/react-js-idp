@@ -123,7 +123,7 @@ const EditStaffTraining = ({
   return (
     <ResponsiveFormDialog
       open={openModal}
-      title="Edit Data PelatihanPegawai "
+      title="Edit Data Pelatihan Pegawai"
       handleClose={handleClose}
       onSubmit={handleSubmit(submitStaff)}
       loadingSubmit={isSubmitting}
@@ -157,7 +157,7 @@ const EditStaffTraining = ({
                   <CommandGroup>
                     {dataKaryawan.map((item) => (
                       <CommandItem
-                        value={item?.id?.toString()}
+                        value={item?.name}
                         key={item?.id}
                         onSelect={() => {
                           handleChangeStaff(item?.id?.toString() || "");
@@ -208,7 +208,7 @@ const EditStaffTraining = ({
                   <CommandGroup>
                     {dataTraining.map((item) => (
                       <CommandItem
-                        value={item?.id?.toString()}
+                        value={item?.tema}
                         key={item.id}
                         onSelect={() => {
                           handleChangeTraining(item?.id?.toString() || "");
