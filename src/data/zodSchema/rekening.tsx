@@ -17,5 +17,3 @@ export const rekeningFormSchema = z.object({
     message: "Nomor Rekening harus diisi",
   }),
 });
-
-export type User = z.infer<typeof rekeningFormSchema>;

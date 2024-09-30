@@ -1,5 +1,5 @@
 "use server";
-import { LoginResponse } from "@/types/data-types";
+import { LoginResponse, SignUpData } from "@/types/data-types";
 import { setCookie } from "@/utils/cookies";
 import axios, { AxiosResponse } from "axios";
 import { cookies } from "next/headers";
@@ -29,6 +29,35 @@ export const signIn = async (data: { email: string; password: string }) => {
       throw new Error("Email atau password salah");
     } else {
       throw new Error("Terjadi kesalahan, coba beberapa saat lagi");
+    }
+  } catch (error: any) {
+    return {
+      status: 400,
+      message: error.message,
+    };
+  }
+};
+export const signUp = async (data: SignUpData) => {
+  try {
+    console.log(
+      "process.env.NEXT_PUBLIC_API_URL",
+      process.env.NEXT_PUBLIC_API_URL
+    );
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}register/langsung`,
+      data
+    );
+    console.log("res", res.data);
+    const status = res.data.status;
+    if (status === "200") {
+      return {
+        status: 200,
+        message: "Success",
+      };
+    } else {
+      throw new Error(
+        res?.data?.message || "Terjadi kesalahan, coba beberapa saat lagi"
+      );
     }
   } catch (error: any) {
     return {

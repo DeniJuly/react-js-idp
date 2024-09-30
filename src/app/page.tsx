@@ -16,6 +16,7 @@ import * as z from "zod";
 import { signIn } from "@/data/actions/auth-action";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 type FormData = z.infer<typeof signInSchema>;
 export default function Home() {
   const router = useRouter();
@@ -47,7 +48,9 @@ export default function Home() {
         <CardContent>
           <form method="POST" onSubmit={handleSubmit(onSubmit)}>
             <div className="grid w-full items-center gap-1.5">
-              <Label htmlFor="email">Email</Label>
+              <Label className="text-sm" htmlFor="email">
+                Email
+              </Label>
               <Input
                 {...register("email", { required: true })}
                 type="email"
@@ -61,7 +64,9 @@ export default function Home() {
               )}
             </div>
             <div className="grid w-full items-center gap-1.5 mt-4">
-              <Label htmlFor="password">Password</Label>
+              <Label className="text-sm" htmlFor="password">
+                Password
+              </Label>
               <Input
                 {...register("password", { required: true })}
                 type="password"
@@ -101,6 +106,12 @@ export default function Home() {
               )}
             </Button>
           </form>
+          <p className="pt-3 text-center text-gray-600 text-sm">
+            Belum mempunyai akun?{" "}
+            <Link href="/daftar" className="text-black font-medium">
+              Daftar
+            </Link>
+          </p>
         </CardContent>
       </Card>
     </div>

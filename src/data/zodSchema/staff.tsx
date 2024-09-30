@@ -26,5 +26,3 @@ export const staffFormSchema = z.object({
     message: "Alamat harus diisi",
   }),
 });
-
-export type User = z.infer<typeof staffFormSchema>;

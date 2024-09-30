@@ -66,3 +66,12 @@ export type LoginResponse = {
     expires_in: number;
   };
 };
+
+export type SignUpData = {
+  email: string;
+  name: string;
+  phone_number: string;
+  domicile: string;
+  gender: "Laki-Laki" | "Perempuan";
+  password: string;
+};

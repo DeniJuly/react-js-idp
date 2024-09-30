@@ -14,5 +14,3 @@ export const trainingFormSchema = z.object({
     .min(4, "Pengarang minimal 4 karakter")
     .max(100, "Pengarang maksimal 100 karakter"),
 });
-
-export type User = z.infer<typeof trainingFormSchema>;
